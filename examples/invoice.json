@@ -1,0 +1,24 @@
+{
+  "client_name": "Example Studio",
+  "currency": "USD",
+  "due_date": "2026-10-21",
+  "issue_date": "2026-09-21",
+  "lines": [
+    {
+      "description": "Workflow setup",
+      "quantity": "2",
+      "tax_rate": "7.25",
+      "unit_price": "150.00"
+    },
+    {
+      "description": "Documentation",
+      "quantity": "1",
+      "tax_rate": "0",
+      "unit_price": "75.00"
+    }
+  ],
+  "number": "EXAMPLE-001",
+  "paid_at": null,
+  "schema_version": 1,
+  "status": "draft"
+}
