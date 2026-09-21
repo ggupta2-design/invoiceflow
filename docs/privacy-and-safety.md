@@ -1,0 +1,55 @@
+# Privacy and financial-data safety
+
+InvoiceFlow is local-first. It does not make network requests, send invoices,
+process payments, upload files, or require credentials.
+
+## Sensitive data
+
+Invoice inputs, ledgers, and reports may contain customer names, invoice
+numbers, dates, descriptions, prices, tax information, and payment status. Keep
+real files outside this public repository. Common ledger, invoice, private, and
+report locations are excluded by `.gitignore`, but ignore rules are not access
+control or encryption.
+
+Do not store bank details, card numbers, government identifiers, authentication
+tokens, passwords, or unnecessary personal data in InvoiceFlow records. The
+schema intentionally does not provide fields for those values.
+
+## Local storage boundaries
+
+Ledgers and exported reports are written with owner-only permissions where the
+operating system supports them. Ledger updates use a temporary file and atomic
+replacement. Report exports never overwrite an existing destination. Symbolic
+link ledgers and output destinations are rejected.
+
+These safeguards do not encrypt files, verify directory permissions, create
+backups, or prevent another process running as the same user from reading data.
+Use operating-system access controls and approved encrypted storage when
+required.
+
+## Calculation and workflow limits
+
+InvoiceFlow uses decimal arithmetic and rounds monetary line values to cents
+with half-up rounding. It does not determine legally correct taxes, currency
+conversion, accounting treatment, late fees, or regulatory compliance. Review
+all calculations before issuing an invoice.
+
+Lifecycle transitions preserve a small audit-friendly state model:
+
+- draft invoices can become sent or void;
+- sent invoices can become paid or void;
+- paid and void invoices are terminal;
+- paid transitions require an explicit payment date.
+
+The ledger stores current state, not a complete tamper-evident accounting audit
+log.
+
+## Reporting privacy
+
+Invoice summaries omit line-item descriptions. List and due reports can replace
+client names with `[redacted]`, but invoice numbers, dates, currencies, amounts,
+and status patterns may still identify a customer or business relationship.
+Review every report before sharing it.
+
+InvoiceFlow does not send reminders, contact clients, schedule itself, reconcile
+payments, or verify recipients.
