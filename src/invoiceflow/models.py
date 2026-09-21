@@ -113,6 +113,19 @@ class InvoiceLine:
         )
 
 
+    @property
+    def subtotal(self) -> Decimal:
+        return money(self.quantity * self.unit_price)
+
+    @property
+    def tax(self) -> Decimal:
+        return money(self.subtotal * self.tax_rate / Decimal("100"))
+
+    @property
+    def total(self) -> Decimal:
+        return self.subtotal + self.tax
+
+
 @dataclass(frozen=True)
 class Invoice:
     number: str
@@ -164,3 +177,16 @@ class Invoice:
                 raise InvoiceFlowError("paid_at cannot be before issue_date")
         elif self.paid_at is not None:
             raise InvoiceFlowError("only paid invoices may include paid_at")
+
+
+    @property
+    def subtotal(self) -> Decimal:
+        return money(sum((line.subtotal for line in self.lines), Decimal("0")))
+
+    @property
+    def tax(self) -> Decimal:
+        return money(sum((line.tax for line in self.lines), Decimal("0")))
+
+    @property
+    def total(self) -> Decimal:
+        return self.subtotal + self.tax
