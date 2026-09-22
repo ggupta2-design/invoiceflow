@@ -16,3 +16,6 @@ invoices/
 private/
 reports/
 invoiceflow-output.*
+reminder-policy.json
+reminder-policies/
+reminder-plan*.json
