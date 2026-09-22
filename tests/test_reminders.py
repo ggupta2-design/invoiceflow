@@ -15,6 +15,7 @@ def invoice(number, due_date, *, status=InvoiceStatus.SENT):
         currency="USD",
         lines=(InvoiceLine("Service", Decimal("1"), Decimal("100.00")),),
         status=status,
+        paid_at=date(2026, 9, 22) if status is InvoiceStatus.PAID else None,
     )
 
 
