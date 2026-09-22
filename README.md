@@ -12,6 +12,8 @@ The first milestone focuses on predictable invoice fundamentals:
 - atomic ledger updates;
 - safe draft, sent, paid, and void lifecycle transitions;
 - due and overdue invoice reviews;
+- strict, reusable reminder cadence policies;
+- bounded, read-only customer reminder plans;
 - readable and JSON reports with optional client-name redaction;
 - automation-friendly exit statuses;
 - no accounts, API keys, payment processor, or network access.
@@ -31,6 +33,9 @@ invoiceflow create ~/private/invoiceflow-ledger.json examples/invoice.json
 invoiceflow status ~/private/invoiceflow-ledger.json EXAMPLE-001 sent
 invoiceflow due ~/private/invoiceflow-ledger.json \
   --as-of 2026-09-21 --days 30 --redact-clients
+invoiceflow reminder-policy-validate examples/reminder-policy.json
+invoiceflow reminders ~/private/invoiceflow-ledger.json \
+  examples/reminder-policy.json --as-of 2026-09-22 --redact-clients
 ```
 
 InvoiceFlow calculates each line with exact decimal arithmetic, stores invoices
@@ -38,7 +43,7 @@ in a strict versioned JSON ledger, and performs no network requests. Ledgers are
 updated atomically. Report exports are private and non-overwriting.
 
 Exit status 0 means the requested operation succeeded. A due review returns 1
-when overdue invoices need attention. Invalid data, unsafe transitions, and
+when overdue invoices need attention or a reminder plan schedules actions. Invalid data, unsafe transitions, and
 conflicting outputs return 2.
 
 See the [usage guide](docs/usage.md) and
@@ -47,5 +52,6 @@ customer or financial data.
 
 ## Status
 
-InvoiceFlow 0.1.0 provides private local invoice tracking, lifecycle controls,
-exact totals, and due-date automation.
+InvoiceFlow 0.2.0 adds strict reminder policies and bounded, privacy-aware
+reminder planning. Plans are local and read-only; InvoiceFlow never sends
+customer communications.
