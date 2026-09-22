@@ -51,5 +51,20 @@ client names with `[redacted]`, but invoice numbers, dates, currencies, amounts,
 and status patterns may still identify a customer or business relationship.
 Review every report before sharing it.
 
-InvoiceFlow does not send reminders, contact clients, schedule itself, reconcile
-payments, or verify recipients.
+## Reminder planning boundaries
+
+Reminder policies describe timing and limits, not message content or recipients.
+Plans contain invoice numbers, client names unless redacted, due dates,
+currencies, and amounts. They omit line-item descriptions and never contain
+email addresses or phone numbers because the invoice schema does not support
+those fields. Treat plans as sensitive financial records and prefer
+`--redact-clients` for review outside the private working directory.
+
+Planning is read-only: it does not modify the ledger, record that a reminder was
+sent, or suppress a later action based on prior communication. A scheduled
+action is not evidence that contact is appropriate. Before communicating,
+confirm the invoice status, recipient, contractual terms, local requirements,
+and prior correspondence in an approved system.
+
+InvoiceFlow does not send reminders, contact clients, schedule itself, calculate
+late fees, reconcile payments, or verify recipients.
