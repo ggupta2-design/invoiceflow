@@ -1,0 +1,12 @@
+{
+  "maximum_reminders": 25,
+  "name": "Conservative customer reminders",
+  "overdue_grace_days": 2,
+  "overdue_interval_days": 7,
+  "schema_version": 1,
+  "upcoming_days": [
+    14,
+    7,
+    0
+  ]
+}
