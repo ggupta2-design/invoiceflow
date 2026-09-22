@@ -81,5 +81,32 @@ Status 1 means a due review contains overdue invoices. Status 2 means an input,
 transition, ledger, or output request is invalid. Exports cannot overwrite
 existing files.
 
+## Plan customer reminders
+
+Validate a reminder policy independently before using it:
+
+```bash
+invoiceflow reminder-policy-validate \
+  examples/reminder-policy.json --json
+```
+
+Create a read-only plan from sent invoices:
+
+```bash
+invoiceflow reminders ~/private/invoiceflow-ledger.json \
+  ~/private/reminder-policy.json \
+  --as-of 2026-09-22 --json --redact-clients \
+  --output ~/private/reports/reminder-plan.json
+```
+
+The policy selects exact upcoming offsets, a grace period, an overdue repeat
+interval, and a global action limit. The command does not modify the ledger or
+send messages. It returns status 1 when one or more actions are scheduled or
+the eligible set was truncated, 0 when no action is due, and 2 for invalid
+input or an unsafe output request.
+
+See [reminder-policies.md](reminder-policies.md) for cadence semantics,
+prioritization, bounds, and human-review requirements.
+
 Read [privacy-and-safety.md](privacy-and-safety.md) before storing real customer
 or financial data.
