@@ -14,6 +14,8 @@ from .invoice_io import load_invoice
 from .models import InvoiceFlowError, InvoiceStatus
 from .output import write_output
 from .reminder_policy import load_reminder_policy
+from .reminder_report import format_reminder_plan
+from .reminders import plan_reminders
 from .report import format_due_review, format_invoice, format_invoice_list
 from .service import InvoiceService
 from .storage import InvoiceLedger
@@ -82,6 +84,15 @@ def build_parser() -> argparse.ArgumentParser:
     due.add_argument("--as-of", type=_date_argument, required=True)
     due.add_argument("--days", type=int, default=30)
     _report_options(due)
+
+    reminders = commands.add_parser(
+        "reminders",
+        help="plan payment reminders without sending messages",
+    )
+    reminders.add_argument("ledger", type=Path)
+    reminders.add_argument("policy", type=Path)
+    reminders.add_argument("--as-of", type=_date_argument, required=True)
+    _report_options(reminders)
     return parser
 
 
@@ -172,6 +183,21 @@ def run(argv: Sequence[str] | None = None) -> int:
             )
             print(f"Updated {invoice.number} to {invoice.status.value}")
             return 0
+
+        if args.command == "reminders":
+            policy = load_reminder_policy(args.policy)
+            plan = plan_reminders(
+                service.list(),
+                policy=policy,
+                as_of=args.as_of,
+            )
+            content = format_reminder_plan(
+                plan,
+                as_json=args.as_json,
+                redact_clients=args.redact_clients,
+            )
+            _emit(content, args.output)
+            return 1 if plan.attention_required else 0
 
         review = review_due(
             service.list(),
