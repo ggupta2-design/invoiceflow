@@ -13,6 +13,7 @@ from .due import review_due
 from .invoice_io import load_invoice
 from .models import InvoiceFlowError, InvoiceStatus
 from .output import write_output
+from .reminder_policy import load_reminder_policy
 from .report import format_due_review, format_invoice, format_invoice_list
 from .service import InvoiceService
 from .storage import InvoiceLedger
@@ -45,6 +46,13 @@ def build_parser() -> argparse.ArgumentParser:
     )
     validate.add_argument("invoice", type=Path)
     validate.add_argument("--json", action="store_true", dest="as_json")
+
+    policy_validate = commands.add_parser(
+        "reminder-policy-validate",
+        help="validate a local reminder policy without changing data",
+    )
+    policy_validate.add_argument("policy", type=Path)
+    policy_validate.add_argument("--json", action="store_true", dest="as_json")
 
     create = commands.add_parser("create", help="add an invoice to a local ledger")
     create.add_argument("ledger", type=Path)
@@ -106,6 +114,29 @@ def run(argv: Sequence[str] | None = None) -> int:
                     f"Currency: {invoice.currency}\n"
                     f"Lines: {len(invoice.lines)}\n"
                     f"Total: {invoice.total}"
+                )
+            return 0
+
+        if args.command == "reminder-policy-validate":
+            policy = load_reminder_policy(args.policy)
+            payload = {
+                "valid": True,
+                "name": policy.name,
+                "upcoming_days": list(policy.upcoming_days),
+                "overdue_grace_days": policy.overdue_grace_days,
+                "overdue_interval_days": policy.overdue_interval_days,
+                "maximum_reminders": policy.maximum_reminders,
+            }
+            if args.as_json:
+                print(json.dumps(payload, indent=2, sort_keys=True))
+            else:
+                print(
+                    "Reminder policy is valid\n"
+                    f"Name: {policy.name}\n"
+                    f"Upcoming days: {', '.join(str(day) for day in policy.upcoming_days)}\n"
+                    f"Overdue grace: {policy.overdue_grace_days} days\n"
+                    f"Overdue interval: {policy.overdue_interval_days} days\n"
+                    f"Maximum reminders: {policy.maximum_reminders}"
                 )
             return 0
 
