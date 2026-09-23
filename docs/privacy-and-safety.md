@@ -51,6 +51,19 @@ client names with `[redacted]`, but invoice numbers, dates, currencies, amounts,
 and status patterns may still identify a customer or business relationship.
 Review every report before sharing it.
 
+## Aging report boundaries
+
+Receivables aging reports use aggregate counts and amounts by currency and age
+bucket. They omit customer names, invoice numbers, individual dates, line
+descriptions, and per-invoice balances. Aggregation reduces exposure but does
+not guarantee anonymity: a distinctive total, currency, or small count can
+still disclose commercially sensitive information.
+
+The aging command is local and read-only. It does not modify invoice status,
+estimate collectability, convert currencies, calculate late fees, or reconcile
+payments. Store exports with the same protections as the ledger and review them
+before sharing.
+
 ## Reminder planning boundaries
 
 Reminder policies describe timing and limits, not message content or recipients.
