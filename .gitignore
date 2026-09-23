@@ -19,3 +19,5 @@ invoiceflow-output.*
 reminder-policy.json
 reminder-policies/
 reminder-plan*.json
+aging-report*.json
+receivables-aging*.json
