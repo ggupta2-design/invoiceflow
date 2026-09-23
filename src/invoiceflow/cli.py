@@ -9,6 +9,8 @@ from datetime import date
 from pathlib import Path
 from typing import Sequence
 
+from .aging import age_receivables
+from .aging_report import format_aging
 from .due import review_due
 from .invoice_io import load_invoice
 from .models import InvoiceFlowError, InvoiceStatus
@@ -84,6 +86,15 @@ def build_parser() -> argparse.ArgumentParser:
     due.add_argument("--as-of", type=_date_argument, required=True)
     due.add_argument("--days", type=int, default=30)
     _report_options(due)
+
+    aging = commands.add_parser(
+        "aging",
+        help="summarize open receivables by aging bucket and currency",
+    )
+    aging.add_argument("ledger", type=Path)
+    aging.add_argument("--as-of", type=_date_argument, required=True)
+    aging.add_argument("--json", action="store_true", dest="as_json")
+    aging.add_argument("--output", type=Path)
 
     reminders = commands.add_parser(
         "reminders",
@@ -183,6 +194,12 @@ def run(argv: Sequence[str] | None = None) -> int:
             )
             print(f"Updated {invoice.number} to {invoice.status.value}")
             return 0
+
+        if args.command == "aging":
+            aging = age_receivables(service.list(), as_of=args.as_of)
+            content = format_aging(aging, as_json=args.as_json)
+            _emit(content, args.output)
+            return 1 if aging.attention_required else 0
 
         if args.command == "reminders":
             policy = load_reminder_policy(args.policy)
