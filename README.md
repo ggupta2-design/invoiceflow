@@ -14,6 +14,7 @@ The first milestone focuses on predictable invoice fundamentals:
 - due and overdue invoice reviews;
 - strict, reusable reminder cadence policies;
 - bounded, read-only customer reminder plans;
+- aggregate multi-currency receivables aging;
 - readable and JSON reports with optional client-name redaction;
 - automation-friendly exit statuses;
 - no accounts, API keys, payment processor, or network access.
@@ -33,6 +34,8 @@ invoiceflow create ~/private/invoiceflow-ledger.json examples/invoice.json
 invoiceflow status ~/private/invoiceflow-ledger.json EXAMPLE-001 sent
 invoiceflow due ~/private/invoiceflow-ledger.json \
   --as-of 2026-09-21 --days 30 --redact-clients
+invoiceflow aging ~/private/invoiceflow-ledger.json \
+  --as-of 2026-09-23 --json
 invoiceflow reminder-policy-validate examples/reminder-policy.json
 invoiceflow reminders ~/private/invoiceflow-ledger.json \
   examples/reminder-policy.json --as-of 2026-09-22 --redact-clients
@@ -43,8 +46,9 @@ in a strict versioned JSON ledger, and performs no network requests. Ledgers are
 updated atomically. Report exports are private and non-overwriting.
 
 Exit status 0 means the requested operation succeeded. A due review returns 1
-when overdue invoices need attention or a reminder plan schedules actions. Invalid data, unsafe transitions, and
-conflicting outputs return 2.
+when overdue invoices need attention, an aging report finds overdue
+receivables, or a reminder plan schedules actions. Invalid data, unsafe
+transitions, and conflicting outputs return 2.
 
 See the [usage guide](docs/usage.md) and
 [privacy and safety guide](docs/privacy-and-safety.md) before working with real
@@ -52,6 +56,6 @@ customer or financial data.
 
 ## Status
 
-InvoiceFlow 0.2.0 adds strict reminder policies and bounded, privacy-aware
-reminder planning. Plans are local and read-only; InvoiceFlow never sends
-customer communications.
+InvoiceFlow 0.3.0 adds privacy-safe receivables aging with exact,
+currency-separated totals. Aging reports are local, read-only, and omit
+customer and invoice identifiers.
