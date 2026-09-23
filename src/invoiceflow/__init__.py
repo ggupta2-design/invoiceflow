@@ -1,5 +1,14 @@
 """Private, local-first invoice tracking."""
 
+from .aging import (
+    AgingAmount,
+    AgingBucket,
+    CurrencyAging,
+    ReceivablesAging,
+    age_receivables,
+    classify_aging,
+)
+from .aging_report import aging_to_dict, format_aging
 from .due import DueInvoice, DueReview, DueState, review_due
 from .invoice_io import (
     format_invoice_json,
@@ -41,9 +50,13 @@ from .report import (
 from .service import InvoiceService
 from .storage import MAX_LEDGER_INVOICES, InvoiceLedger
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 
 __all__ = [
+    "AgingAmount",
+    "AgingBucket",
+    "CurrencyAging",
+    "ReceivablesAging",
     "DueInvoice",
     "DueReview",
     "DueState",
@@ -60,7 +73,11 @@ __all__ = [
     "ReminderPolicy",
     "ReminderState",
     "MAX_LEDGER_INVOICES",
+    "age_receivables",
+    "aging_to_dict",
+    "classify_aging",
     "due_review_to_dict",
+    "format_aging",
     "format_due_review",
     "format_invoice",
     "format_invoice_json",
