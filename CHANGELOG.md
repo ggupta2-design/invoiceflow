@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.3.0 — 2026-09-23
+
+- Added read-only receivables aging for sent invoices.
+- Added current, 1–30, 31–60, 61–90, and 91+ day buckets.
+- Added exact boundary handling using an explicit reproducible as-of date.
+- Added exact Decimal counts and totals kept separate by currency.
+- Added aggregate reports that omit customers, invoice identifiers, individual
+  dates, line descriptions, and per-invoice balances.
+- Added readable and JSON aging formats with protected non-overwriting exports.
+- Added automation-friendly overdue, clear, and invalid exit statuses.
+- Added tests for bucket boundaries, lifecycle eligibility, multiple currencies,
+  exact totals, privacy, ledger immutability, exports, CLI behavior, and public
+  APIs.
+- Documented aging semantics, disclosure limits, workflow usage, and accounting
+  interpretation boundaries.
+
 ## 0.2.0 — 2026-09-22
 
 - Added strict schema-version-1 local reminder policies.
