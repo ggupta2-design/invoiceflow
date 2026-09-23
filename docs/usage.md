@@ -81,6 +81,27 @@ Status 1 means a due review contains overdue invoices. Status 2 means an input,
 transition, ledger, or output request is invalid. Exports cannot overwrite
 existing files.
 
+## Review receivables aging
+
+```bash
+invoiceflow aging ~/private/invoiceflow-ledger.json \
+  --as-of 2026-09-23
+
+invoiceflow aging ~/private/invoiceflow-ledger.json \
+  --as-of 2026-09-23 --json \
+  --output ~/private/reports/aging.json
+```
+
+Aging includes sent invoices only and groups aggregate counts and amounts by
+currency and by current, 1–30, 31–60, 61–90, and 91+ day buckets. Reports omit
+client names, invoice numbers, individual dates, and line descriptions. The
+ledger is never modified.
+
+Status 1 means at least one open invoice is overdue, 0 means no overdue
+receivable was found, and 2 means the ledger, date, or output request is
+invalid. See [receivables-aging.md](receivables-aging.md) for boundaries,
+currency handling, disclosure limits, and interpretation guidance.
+
 ## Plan customer reminders
 
 Validate a reminder policy independently before using it:
