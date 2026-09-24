@@ -43,7 +43,7 @@ def build_parser() -> argparse.ArgumentParser:
         prog="invoiceflow",
         description="Track private invoices in a local ledger",
     )
-    parser.add_argument("--version", action="version", version="invoiceflow 0.3.0")
+    parser.add_argument("--version", action="version", version="invoiceflow 0.4.0")
     commands = parser.add_subparsers(dest="command", required=True)
 
     validate = commands.add_parser(
