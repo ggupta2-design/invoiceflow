@@ -15,6 +15,7 @@ The first milestone focuses on predictable invoice fundamentals:
 - strict, reusable reminder cadence policies;
 - bounded, read-only customer reminder plans;
 - aggregate multi-currency receivables aging;
+- checksum-protected local backup verification and recovery;
 - readable and JSON reports with optional client-name redaction;
 - automation-friendly exit statuses;
 - no accounts, API keys, payment processor, or network access.
@@ -39,6 +40,9 @@ invoiceflow aging ~/private/invoiceflow-ledger.json \
 invoiceflow reminder-policy-validate examples/reminder-policy.json
 invoiceflow reminders ~/private/invoiceflow-ledger.json \
   examples/reminder-policy.json --as-of 2026-09-22 --redact-clients
+invoiceflow backup-create ~/private/invoiceflow-ledger.json \
+  ~/encrypted-backups/invoiceflow.backup.json
+invoiceflow backup-verify ~/encrypted-backups/invoiceflow.backup.json
 ```
 
 InvoiceFlow calculates each line with exact decimal arithmetic, stores invoices
@@ -56,6 +60,6 @@ customer or financial data.
 
 ## Status
 
-InvoiceFlow 0.3.0 adds privacy-safe receivables aging with exact,
-currency-separated totals. Aging reports are local, read-only, and omit
-customer and invoice identifiers.
+InvoiceFlow 0.4.0 adds validated, checksum-protected local backups and
+explicitly confirmed recovery to new ledgers. Backup creation, verification,
+and restore never overwrite existing files.
