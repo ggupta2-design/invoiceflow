@@ -11,7 +11,7 @@ from typing import Sequence
 
 from .aging import age_receivables
 from .aging_report import format_aging
-from .backup import create_backup, load_backup
+from .backup import create_backup, load_backup, restore_backup
 from .backup_report import format_backup_summary
 from .due import review_due
 from .invoice_io import load_invoice
@@ -74,6 +74,14 @@ def build_parser() -> argparse.ArgumentParser:
     )
     backup_verify.add_argument("backup", type=Path)
     backup_verify.add_argument("--json", action="store_true", dest="as_json")
+
+    backup_restore = commands.add_parser(
+        "backup-restore",
+        help="restore a verified backup to a new ledger",
+    )
+    backup_restore.add_argument("backup", type=Path)
+    backup_restore.add_argument("ledger", type=Path)
+    backup_restore.add_argument("--confirm")
 
     create = commands.add_parser("create", help="add an invoice to a local ledger")
     create.add_argument("ledger", type=Path)
@@ -198,6 +206,21 @@ def run(argv: Sequence[str] | None = None) -> int:
                     summary,
                     action="verified",
                     as_json=args.as_json,
+                ),
+                None,
+            )
+            return 0
+
+        if args.command == "backup-restore":
+            if args.confirm != "RESTORE":
+                raise InvoiceFlowError(
+                    "backup restore requires --confirm RESTORE"
+                )
+            summary = restore_backup(args.backup, args.ledger)
+            _emit(
+                format_backup_summary(
+                    summary,
+                    action="restored",
                 ),
                 None,
             )
