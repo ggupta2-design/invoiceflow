@@ -11,6 +11,8 @@ from typing import Sequence
 
 from .aging import age_receivables
 from .aging_report import format_aging
+from .backup import create_backup, load_backup
+from .backup_report import format_backup_summary
 from .due import review_due
 from .invoice_io import load_invoice
 from .models import InvoiceFlowError, InvoiceStatus
@@ -57,6 +59,21 @@ def build_parser() -> argparse.ArgumentParser:
     )
     policy_validate.add_argument("policy", type=Path)
     policy_validate.add_argument("--json", action="store_true", dest="as_json")
+
+    backup_create = commands.add_parser(
+        "backup-create",
+        help="create a checksum-protected non-overwriting ledger backup",
+    )
+    backup_create.add_argument("ledger", type=Path)
+    backup_create.add_argument("backup", type=Path)
+    backup_create.add_argument("--json", action="store_true", dest="as_json")
+
+    backup_verify = commands.add_parser(
+        "backup-verify",
+        help="verify a ledger backup without restoring it",
+    )
+    backup_verify.add_argument("backup", type=Path)
+    backup_verify.add_argument("--json", action="store_true", dest="as_json")
 
     create = commands.add_parser("create", help="add an invoice to a local ledger")
     create.add_argument("ledger", type=Path)
@@ -160,6 +177,30 @@ def run(argv: Sequence[str] | None = None) -> int:
                     f"Overdue interval: {policy.overdue_interval_days} days\n"
                     f"Maximum reminders: {policy.maximum_reminders}"
                 )
+            return 0
+
+        if args.command == "backup-create":
+            summary = create_backup(args.ledger, args.backup)
+            _emit(
+                format_backup_summary(
+                    summary,
+                    action="created",
+                    as_json=args.as_json,
+                ),
+                None,
+            )
+            return 0
+
+        if args.command == "backup-verify":
+            summary = load_backup(args.backup).summary
+            _emit(
+                format_backup_summary(
+                    summary,
+                    action="verified",
+                    as_json=args.as_json,
+                ),
+                None,
+            )
             return 0
 
         service = InvoiceService(InvoiceLedger(args.ledger))
