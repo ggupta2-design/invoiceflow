@@ -129,5 +129,40 @@ input or an unsafe output request.
 See [reminder-policies.md](reminder-policies.md) for cadence semantics,
 prioritization, bounds, and human-review requirements.
 
+## Back up and recover a ledger
+
+Create a protected backup without changing the source:
+
+```bash
+invoiceflow backup-create \
+  ~/private/invoiceflow-ledger.json \
+  ~/encrypted-backups/invoiceflow.backup.json --json
+```
+
+Verify the complete schema, invoice count, canonical ledger, and checksum
+without restoring:
+
+```bash
+invoiceflow backup-verify \
+  ~/encrypted-backups/invoiceflow.backup.json --json
+```
+
+Restore only to a new destination with explicit confirmation:
+
+```bash
+invoiceflow backup-restore \
+  ~/encrypted-backups/invoiceflow.backup.json \
+  ~/private/restored-ledger.json \
+  --confirm RESTORE
+```
+
+Creation and restore never overwrite existing files. A failed verification
+cannot create a restored ledger. Backup command output contains only the
+operation, invoice count, and ledger checksum, but the backup file itself
+contains the complete private ledger.
+
+See [backup-and-recovery.md](backup-and-recovery.md) for storage requirements,
+checksum limitations, recovery safeguards, and operational guidance.
+
 Read [privacy-and-safety.md](privacy-and-safety.md) before storing real customer
 or financial data.
