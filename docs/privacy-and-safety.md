@@ -22,10 +22,22 @@ operating system supports them. Ledger updates use a temporary file and atomic
 replacement. Report exports never overwrite an existing destination. Symbolic
 link ledgers and output destinations are rejected.
 
-These safeguards do not encrypt files, verify directory permissions, create
+These safeguards do not encrypt files, verify directory permissions, schedule
 backups, or prevent another process running as the same user from reading data.
 Use operating-system access controls and approved encrypted storage when
 required.
+
+## Backup privacy
+
+Backup files contain the complete ledger and are not redacted. They may expose
+customer identities, invoice descriptions, dates, amounts, and payment status.
+Store them outside the repository in approved encrypted storage. The SHA-256
+checksum verifies consistency but does not hide data or prove who created the
+backup.
+
+Backup summaries omit invoice values and parent-directory paths. Creation,
+verification, and restore are local operations. InvoiceFlow never uploads a
+backup, and restore cannot overwrite or merge into an existing ledger.
 
 ## Calculation and workflow limits
 
