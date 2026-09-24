@@ -40,18 +40,14 @@ class InvoiceLedger:
             ) from exc
         except OSError as exc:
             raise InvoiceFlowError("could not read ledger") from exc
-        return _ledger_from_dict(payload)
+        return ledger_from_dict(payload)
 
     def save(self, invoices: tuple[Invoice, ...]) -> None:
         validated = _validate_invoices(invoices)
         if self.path.exists() and self.path.is_symlink():
             raise InvoiceFlowError("ledger cannot be a symbolic link")
         self.path.parent.mkdir(parents=True, exist_ok=True)
-        payload = {
-            "schema_version": 1,
-            "invoices": [invoice_to_dict(invoice) for invoice in validated],
-        }
-        content = json.dumps(payload, indent=2, sort_keys=True) + "\n"
+        content = format_ledger_json(validated)
         descriptor, temporary_name = tempfile.mkstemp(
             prefix=f".{self.path.name}.",
             suffix=".tmp",
@@ -88,7 +84,19 @@ def _validate_invoices(invoices: tuple[Invoice, ...]) -> tuple[Invoice, ...]:
     return ordered
 
 
-def _ledger_from_dict(payload: Any) -> tuple[Invoice, ...]:
+def ledger_to_dict(invoices: tuple[Invoice, ...]) -> dict[str, Any]:
+    validated = _validate_invoices(invoices)
+    return {
+        "schema_version": 1,
+        "invoices": [invoice_to_dict(invoice) for invoice in validated],
+    }
+
+
+def format_ledger_json(invoices: tuple[Invoice, ...]) -> str:
+    return json.dumps(ledger_to_dict(invoices), indent=2, sort_keys=True) + "\n"
+
+
+def ledger_from_dict(payload: Any) -> tuple[Invoice, ...]:
     if not isinstance(payload, dict) or set(payload) != _LEDGER_FIELDS:
         raise InvoiceFlowError("ledger must contain exactly the supported fields")
     if payload["schema_version"] != 1:
