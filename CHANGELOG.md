@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.4.0 — 2026-09-24
+
+- Added strict reusable ledger serialization for backup validation.
+- Added versioned local backups containing canonical ledger data.
+- Added SHA-256 integrity verification with constant-time comparison.
+- Added strict backup schema, invoice-count, canonical-form, size, and symbolic
+  link safeguards.
+- Added private backup creation that never overwrites an existing file.
+- Added offline backup verification without ledger changes.
+- Added recovery to new private ledgers only after exact explicit confirmation.
+- Added verification-before-write behavior and non-overwriting restore.
+- Added value-free backup summaries that omit invoice contents and parent paths.
+- Added automation-friendly backup creation, verification, and restore commands.
+- Added tests for checksums, tampering, size limits, symbolic links,
+  permissions, confirmation, failed recovery, output privacy, CLI workflows,
+  serialization, and public APIs.
+- Documented encrypted-storage expectations, checksum limitations, privacy
+  boundaries, and recovery procedures.
+
 ## 0.3.0 — 2026-09-23
 
 - Added read-only receivables aging for sent invoices.
