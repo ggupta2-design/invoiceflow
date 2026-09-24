@@ -21,3 +21,6 @@ reminder-policies/
 reminder-plan*.json
 aging-report*.json
 receivables-aging*.json
+backups/
+*.backup.json
+restored-ledger*.json
