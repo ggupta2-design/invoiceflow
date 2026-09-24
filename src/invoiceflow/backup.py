@@ -11,7 +11,12 @@ from typing import Any
 
 from .models import Invoice, InvoiceFlowError
 from .output import write_output
-from .storage import InvoiceLedger, ledger_from_dict, ledger_to_dict
+from .storage import (
+    InvoiceLedger,
+    format_ledger_json,
+    ledger_from_dict,
+    ledger_to_dict,
+)
 
 _BACKUP_FIELDS = {
     "schema_version",
@@ -133,3 +138,14 @@ def load_backup(path: str | Path) -> VerifiedBackup:
     except OSError as exc:
         raise InvoiceFlowError("could not read backup") from exc
     return backup_from_dict(payload)
+
+
+def restore_backup(
+    backup_path: str | Path,
+    ledger_path: str | Path,
+) -> BackupSummary:
+    """Restore a verified backup to a new ledger without overwriting data."""
+
+    verified = load_backup(backup_path)
+    write_output(ledger_path, format_ledger_json(verified.invoices))
+    return verified.summary
