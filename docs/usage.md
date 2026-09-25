@@ -102,6 +102,30 @@ receivable was found, and 2 means the ledger, date, or output request is
 invalid. See [receivables-aging.md](receivables-aging.md) for boundaries,
 currency handling, disclosure limits, and interpretation guidance.
 
+## Forecast collection windows
+
+```bash
+invoiceflow forecast ~/private/invoiceflow-ledger.json \
+  --as-of 2026-09-25 --days 90
+
+invoiceflow forecast ~/private/invoiceflow-ledger.json \
+  --as-of 2026-09-25 --days 90 --json \
+  --output ~/private/reports/collection-forecast.json
+```
+
+Only sent invoices enter forecasts. Aggregate counts and exact amounts remain
+separate by currency across overdue, due-today, 1–7 day, 8–30 day, and later
+windows. Sent invoices beyond the selected horizon are counted but their
+amounts are excluded. Reports omit clients, invoice identifiers, individual
+dates, descriptions, and per-invoice balances, and the ledger is never
+modified.
+
+Status 1 means at least one included invoice is overdue, 0 means no overdue
+invoice was found, and 2 means the input or output request is invalid. Exports
+cannot overwrite existing files. See
+[collection-forecasting.md](collection-forecasting.md) for semantics, privacy
+boundaries, and interpretation limits.
+
 ## Plan customer reminders
 
 Validate a reminder policy independently before using it:
