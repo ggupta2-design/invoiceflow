@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.5.0 — 2026-09-25
+
+- Added read-only cash collection forecasts for sent invoices.
+- Added overdue, due-today, 1–7 day, 8–30 day, and bounded later windows.
+- Added explicit horizons from 0 through 3,650 days and counts for invoices
+  excluded beyond the selected horizon.
+- Added exact Decimal totals kept separate by currency.
+- Added aggregate reports that omit clients, invoice identifiers, individual
+  dates, line descriptions, per-invoice balances, payment details, and paths.
+- Added readable and JSON forecast formats with protected non-overwriting
+  exports.
+- Added automation-friendly overdue, clear, and invalid exit statuses.
+- Added tests for bucket boundaries, short horizons, lifecycle eligibility,
+  multiple currencies, exact totals, privacy, immutability, exports, CLI
+  behavior, deterministic ordering, and public APIs.
+- Documented forecast semantics, disclosure limits, workflow usage, and
+  interpretation boundaries.
+
 ## 0.4.0 — 2026-09-24
 
 - Added strict reusable ledger serialization for backup validation.
