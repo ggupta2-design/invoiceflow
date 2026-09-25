@@ -15,6 +15,7 @@ The first milestone focuses on predictable invoice fundamentals:
 - strict, reusable reminder cadence policies;
 - bounded, read-only customer reminder plans;
 - aggregate multi-currency receivables aging;
+- bounded, privacy-safe cash collection forecasts;
 - checksum-protected local backup verification and recovery;
 - readable and JSON reports with optional client-name redaction;
 - automation-friendly exit statuses;
@@ -37,6 +38,8 @@ invoiceflow due ~/private/invoiceflow-ledger.json \
   --as-of 2026-09-21 --days 30 --redact-clients
 invoiceflow aging ~/private/invoiceflow-ledger.json \
   --as-of 2026-09-23 --json
+invoiceflow forecast ~/private/invoiceflow-ledger.json \
+  --as-of 2026-09-25 --days 90 --json
 invoiceflow reminder-policy-validate examples/reminder-policy.json
 invoiceflow reminders ~/private/invoiceflow-ledger.json \
   examples/reminder-policy.json --as-of 2026-09-22 --redact-clients
@@ -50,7 +53,7 @@ in a strict versioned JSON ledger, and performs no network requests. Ledgers are
 updated atomically. Report exports are private and non-overwriting.
 
 Exit status 0 means the requested operation succeeded. A due review returns 1
-when overdue invoices need attention, an aging report finds overdue
+when overdue invoices need attention, an aging report or collection forecast finds overdue
 receivables, or a reminder plan schedules actions. Invalid data, unsafe
 transitions, and conflicting outputs return 2.
 
@@ -60,6 +63,4 @@ customer or financial data.
 
 ## Status
 
-InvoiceFlow 0.4.0 adds validated, checksum-protected local backups and
-explicitly confirmed recovery to new ledgers. Backup creation, verification,
-and restore never overwrite existing files.
+InvoiceFlow 0.5.0 adds bounded collection forecasts with exact, currency-separated totals and aggregate-only reports. Forecasts are read-only and never expose invoice identity fields.
