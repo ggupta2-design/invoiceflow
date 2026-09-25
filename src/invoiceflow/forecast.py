@@ -92,6 +92,8 @@ def classify_due_date(
         return ForecastBucket.OVERDUE
     if offset == 0:
         return ForecastBucket.DUE_TODAY
+    if offset > days:
+        return None
     if offset <= 7:
         return ForecastBucket.DAYS_1_7
     if offset <= 30:
