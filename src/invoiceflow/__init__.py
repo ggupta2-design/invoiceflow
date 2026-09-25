@@ -21,6 +21,15 @@ from .backup import (
 )
 from .backup_report import backup_summary_to_dict, format_backup_summary
 from .due import DueInvoice, DueReview, DueState, review_due
+from .forecast import (
+    CollectionForecast,
+    CurrencyForecast,
+    ForecastAmount,
+    ForecastBucket,
+    classify_due_date,
+    forecast_collections,
+)
+from .forecast_report import forecast_to_dict, format_forecast
 from .invoice_io import (
     format_invoice_json,
     invoice_from_dict,
@@ -67,7 +76,7 @@ from .storage import (
     ledger_to_dict,
 )
 
-__version__ = "0.4.0"
+__version__ = "0.5.0"
 
 __all__ = [
     "AgingAmount",
@@ -78,6 +87,10 @@ __all__ = [
     "DueInvoice",
     "DueReview",
     "DueState",
+    "CollectionForecast",
+    "CurrencyForecast",
+    "ForecastAmount",
+    "ForecastBucket",
     "Invoice",
     "InvoiceFlowError",
     "InvoiceLedger",
@@ -99,17 +112,21 @@ __all__ = [
     "build_backup",
     "aging_to_dict",
     "classify_aging",
+    "classify_due_date",
     "create_backup",
     "due_review_to_dict",
     "format_aging",
     "format_backup_summary",
     "format_due_review",
+    "format_forecast",
     "format_invoice",
     "format_invoice_json",
     "format_invoice_list",
     "format_ledger_json",
     "format_policy_json",
     "format_reminder_plan",
+    "forecast_collections",
+    "forecast_to_dict",
     "invoice_from_dict",
     "invoice_summary_to_dict",
     "invoice_to_dict",
