@@ -14,6 +14,8 @@ from .aging_report import format_aging
 from .backup import create_backup, load_backup, restore_backup
 from .backup_report import format_backup_summary
 from .due import review_due
+from .forecast import forecast_collections
+from .forecast_report import format_forecast
 from .invoice_io import load_invoice
 from .models import InvoiceFlowError, InvoiceStatus
 from .output import write_output
@@ -120,6 +122,16 @@ def build_parser() -> argparse.ArgumentParser:
     aging.add_argument("--as-of", type=_date_argument, required=True)
     aging.add_argument("--json", action="store_true", dest="as_json")
     aging.add_argument("--output", type=Path)
+
+    forecast = commands.add_parser(
+        "forecast",
+        help="forecast aggregate collections by due-date window",
+    )
+    forecast.add_argument("ledger", type=Path)
+    forecast.add_argument("--as-of", type=_date_argument, required=True)
+    forecast.add_argument("--days", type=int, default=90)
+    forecast.add_argument("--json", action="store_true", dest="as_json")
+    forecast.add_argument("--output", type=Path)
 
     reminders = commands.add_parser(
         "reminders",
@@ -264,6 +276,16 @@ def run(argv: Sequence[str] | None = None) -> int:
             content = format_aging(aging, as_json=args.as_json)
             _emit(content, args.output)
             return 1 if aging.attention_required else 0
+
+        if args.command == "forecast":
+            forecast = forecast_collections(
+                service.list(),
+                as_of=args.as_of,
+                days=args.days,
+            )
+            content = format_forecast(forecast, as_json=args.as_json)
+            _emit(content, args.output)
+            return 1 if forecast.attention_required else 0
 
         if args.command == "reminders":
             policy = load_reminder_policy(args.policy)
