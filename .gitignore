@@ -24,3 +24,5 @@ receivables-aging*.json
 backups/
 *.backup.json
 restored-ledger*.json
+collection-forecast*.json
+cash-forecast*.json
