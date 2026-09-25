@@ -93,3 +93,17 @@ and prior correspondence in an approved system.
 
 InvoiceFlow does not send reminders, contact clients, schedule itself, calculate
 late fees, reconcile payments, or verify recipients.
+
+## Collection forecast boundaries
+
+Collection forecasts aggregate counts and exact amounts by currency and
+due-date window. They omit client names, invoice numbers, individual issue and
+due dates, line descriptions, per-invoice balances, payment details, and paths.
+Aggregate totals and small counts can still reveal commercially sensitive
+information, so forecast exports require the same protection as the ledger.
+
+Forecasting is local and read-only. It does not convert currencies, predict
+payment behavior, estimate collection probability, calculate late fees,
+reconcile payments, contact customers, or make accounting decisions. Values
+after the selected horizon are excluded from totals and represented only by a
+count. Review the source ledger before acting on any forecast.
