@@ -56,7 +56,7 @@ def test_performance_includes_only_paid_invoices_in_window():
     result = analyze_payment_performance(
         (
             invoice("PAID"),
-            invoice("BEFORE", paid_at=date(2026, 8, 31)),
+            invoice("BEFORE", issue_date=date(2026, 8, 1), paid_at=date(2026, 8, 31)),
             invoice("AFTER", paid_at=date(2026, 10, 1)),
             invoice("SENT", status=InvoiceStatus.SENT),
             invoice("DRAFT", status=InvoiceStatus.DRAFT),
@@ -66,6 +66,15 @@ def test_performance_includes_only_paid_invoices_in_window():
         through_date=THROUGH_DATE,
     )
     assert result.invoice_count == 1
+    inclusive = analyze_payment_performance(
+        (
+            invoice("START", issue_date=date(2026, 8, 1), paid_at=FROM_DATE),
+            invoice("END", paid_at=THROUGH_DATE),
+        ),
+        from_date=FROM_DATE,
+        through_date=THROUGH_DATE,
+    )
+    assert inclusive.invoice_count == 2
     assert result.currencies[0].bucket(PaymentBucket.DAYS_8_30).count == 1
 
 
