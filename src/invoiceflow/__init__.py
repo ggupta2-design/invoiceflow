@@ -44,6 +44,18 @@ from .models import (
     money,
 )
 from .output import write_output
+from .payment_performance import (
+    CurrencyPaymentPerformance,
+    PaymentAmount,
+    PaymentBucket,
+    PaymentPerformance,
+    analyze_payment_performance,
+    classify_settlement_days,
+)
+from .payment_performance_report import (
+    format_payment_performance,
+    payment_performance_to_dict,
+)
 from .reminder_policy import (
     MAX_POLICY_BYTES,
     MAX_UPCOMING_DAYS,
@@ -76,7 +88,7 @@ from .storage import (
     ledger_to_dict,
 )
 
-__version__ = "0.5.0"
+__version__ = "0.6.0"
 
 __all__ = [
     "AgingAmount",
@@ -97,6 +109,10 @@ __all__ = [
     "InvoiceLine",
     "InvoiceService",
     "InvoiceStatus",
+    "CurrencyPaymentPerformance",
+    "PaymentAmount",
+    "PaymentBucket",
+    "PaymentPerformance",
     "MAX_BACKUP_BYTES",
     "MAX_POLICY_BYTES",
     "MAX_UPCOMING_DAYS",
@@ -107,12 +123,14 @@ __all__ = [
     "VerifiedBackup",
     "MAX_LEDGER_INVOICES",
     "age_receivables",
+    "analyze_payment_performance",
     "backup_from_dict",
     "backup_summary_to_dict",
     "build_backup",
     "aging_to_dict",
     "classify_aging",
     "classify_due_date",
+    "classify_settlement_days",
     "create_backup",
     "due_review_to_dict",
     "format_aging",
@@ -123,6 +141,7 @@ __all__ = [
     "format_invoice_json",
     "format_invoice_list",
     "format_ledger_json",
+    "format_payment_performance",
     "format_policy_json",
     "format_reminder_plan",
     "forecast_collections",
@@ -138,6 +157,7 @@ __all__ = [
     "money",
     "plan_reminders",
     "policy_from_dict",
+    "payment_performance_to_dict",
     "policy_to_dict",
     "reminder_plan_to_dict",
     "restore_backup",
