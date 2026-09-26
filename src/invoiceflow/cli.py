@@ -19,6 +19,8 @@ from .forecast_report import format_forecast
 from .invoice_io import load_invoice
 from .models import InvoiceFlowError, InvoiceStatus
 from .output import write_output
+from .payment_performance import analyze_payment_performance
+from .payment_performance_report import format_payment_performance
 from .reminder_policy import load_reminder_policy
 from .reminder_report import format_reminder_plan
 from .reminders import plan_reminders
@@ -132,6 +134,23 @@ def build_parser() -> argparse.ArgumentParser:
     forecast.add_argument("--days", type=int, default=90)
     forecast.add_argument("--json", action="store_true", dest="as_json")
     forecast.add_argument("--output", type=Path)
+
+    payment_performance = commands.add_parser(
+        "payment-performance",
+        help="summarize paid invoice settlement times",
+    )
+    payment_performance.add_argument("ledger", type=Path)
+    payment_performance.add_argument(
+        "--from-date", type=_date_argument, required=True
+    )
+    payment_performance.add_argument(
+        "--through-date", type=_date_argument, required=True
+    )
+    payment_performance.add_argument("--target-days", type=int, default=30)
+    payment_performance.add_argument(
+        "--json", action="store_true", dest="as_json"
+    )
+    payment_performance.add_argument("--output", type=Path)
 
     reminders = commands.add_parser(
         "reminders",
@@ -276,6 +295,19 @@ def run(argv: Sequence[str] | None = None) -> int:
             content = format_aging(aging, as_json=args.as_json)
             _emit(content, args.output)
             return 1 if aging.attention_required else 0
+
+        if args.command == "payment-performance":
+            performance = analyze_payment_performance(
+                service.list(),
+                from_date=args.from_date,
+                through_date=args.through_date,
+                target_days=args.target_days,
+            )
+            content = format_payment_performance(
+                performance, as_json=args.as_json
+            )
+            _emit(content, args.output)
+            return 1 if performance.attention_required else 0
 
         if args.command == "forecast":
             forecast = forecast_collections(
