@@ -107,3 +107,17 @@ payment behavior, estimate collection probability, calculate late fees,
 reconcile payments, contact customers, or make accounting decisions. Values
 after the selected horizon are excluded from totals and represented only by a
 count. Review the source ledger before acting on any forecast.
+
+## Payment performance boundaries
+
+Payment performance reports aggregate paid invoice counts, amounts, settlement
+windows, average days to pay, and target misses by currency. They omit customer
+names, invoice numbers, individual issue, due, and payment dates, line
+descriptions, per-invoice balances, payment details, and file paths.
+Aggregation reduces exposure but does not guarantee anonymity; distinctive
+totals, currencies, or small counts may still reveal sensitive business data.
+
+Analysis is local and read-only. It does not alter payment status, verify that a
+payment settled, rank or score customers, predict future behavior, convert
+currencies, reconcile bank records, or make collection decisions. Store exports
+with ledger-level protections and review private source records before acting.
