@@ -26,3 +26,5 @@ backups/
 restored-ledger*.json
 collection-forecast*.json
 cash-forecast*.json
+payment-performance*.json
+settlement-report*.json
