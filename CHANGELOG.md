@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.6.0 — 2026-09-26
+
+- Added read-only payment performance analysis for paid invoices.
+- Added inclusive, explicitly bounded payment-date windows.
+- Added same-day, 1–7, 8–30, 31–60, and 61+ day settlement buckets.
+- Added configurable settlement targets with deterministic target-miss counts.
+- Added exact Decimal totals kept separate by currency.
+- Added half-up two-decimal average settlement durations by currency.
+- Added aggregate reports that omit customers, invoice identifiers, individual
+  invoice dates, line descriptions, per-invoice balances, payment details, and
+  paths.
+- Added readable and JSON reports with protected non-overwriting exports.
+- Added automation-friendly target-met, review-required, and invalid statuses.
+- Added tests for bucket and date boundaries, lifecycle eligibility,
+  multi-currency totals, averages, privacy, immutability, output safety, CLI
+  behavior, deterministic ordering, and public APIs.
+- Documented calculation semantics, disclosure limits, operational workflows,
+  and interpretation boundaries.
+
 ## 0.5.0 — 2026-09-25
 
 - Added read-only cash collection forecasts for sent invoices.
