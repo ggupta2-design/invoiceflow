@@ -16,6 +16,7 @@ The first milestone focuses on predictable invoice fundamentals:
 - bounded, read-only customer reminder plans;
 - aggregate multi-currency receivables aging;
 - bounded, privacy-safe cash collection forecasts;
+- aggregate payment settlement performance against a local target;
 - checksum-protected local backup verification and recovery;
 - readable and JSON reports with optional client-name redaction;
 - automation-friendly exit statuses;
@@ -38,6 +39,8 @@ invoiceflow due ~/private/invoiceflow-ledger.json \
   --as-of 2026-09-21 --days 30 --redact-clients
 invoiceflow aging ~/private/invoiceflow-ledger.json \
   --as-of 2026-09-23 --json
+invoiceflow payment-performance ~/private/invoiceflow-ledger.json \
+  --from-date 2026-09-01 --through-date 2026-09-30 --target-days 30
 invoiceflow forecast ~/private/invoiceflow-ledger.json \
   --as-of 2026-09-25 --days 90 --json
 invoiceflow reminder-policy-validate examples/reminder-policy.json
@@ -63,4 +66,4 @@ customer or financial data.
 
 ## Status
 
-InvoiceFlow 0.5.0 adds bounded collection forecasts with exact, currency-separated totals and aggregate-only reports. Forecasts are read-only and never expose invoice identity fields.
+InvoiceFlow 0.6.0 adds bounded payment-performance analytics with settlement-time buckets, exact currency-separated totals, target tracking, and aggregate-only reports.
