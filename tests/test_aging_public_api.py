@@ -5,7 +5,7 @@ from invoiceflow.cli import build_parser
 
 
 def test_aging_workflow_is_available_from_public_api():
-    assert invoiceflow.__version__ == "0.5.0"
+    assert invoiceflow.__version__ == "0.6.0"
     assert callable(invoiceflow.age_receivables)
     assert callable(invoiceflow.classify_aging)
     assert callable(invoiceflow.aging_to_dict)
@@ -18,7 +18,7 @@ def test_cli_reports_synced_release_version(capsys):
         build_parser().parse_args(["--version"])
 
     assert raised.value.code == 0
-    assert capsys.readouterr().out == "invoiceflow 0.5.0\n"
+    assert capsys.readouterr().out == "invoiceflow 0.6.0\n"
 
 
 def test_backup_workflow_is_available_from_public_api():
@@ -36,3 +36,11 @@ def test_forecast_workflow_is_available_from_public_api():
     assert callable(invoiceflow.forecast_to_dict)
     assert callable(invoiceflow.format_forecast)
     assert invoiceflow.ForecastBucket.OVERDUE.value == "overdue"
+
+
+def test_payment_performance_is_available_from_public_api():
+    assert callable(invoiceflow.analyze_payment_performance)
+    assert callable(invoiceflow.classify_settlement_days)
+    assert callable(invoiceflow.payment_performance_to_dict)
+    assert callable(invoiceflow.format_payment_performance)
+    assert invoiceflow.PaymentBucket.SAME_DAY.value == "same_day"
