@@ -102,6 +102,31 @@ receivable was found, and 2 means the ledger, date, or output request is
 invalid. See [receivables-aging.md](receivables-aging.md) for boundaries,
 currency handling, disclosure limits, and interpretation guidance.
 
+## Review payment performance
+
+```bash
+invoiceflow payment-performance ~/private/invoiceflow-ledger.json \
+  --from-date 2026-09-01 --through-date 2026-09-30 \
+  --target-days 30
+
+invoiceflow payment-performance ~/private/invoiceflow-ledger.json \
+  --from-date 2026-09-01 --through-date 2026-09-30 \
+  --target-days 30 --json \
+  --output ~/private/reports/payment-performance.json
+```
+
+Only paid invoices whose payment dates fall inside the inclusive window are
+included. Reports group counts and exact amounts by currency and settlement
+window, calculate an aggregate average, and count invoices that exceeded the
+selected target. They omit customers, invoice identifiers, individual invoice
+dates, descriptions, and per-invoice balances. The ledger is never modified.
+
+Status 1 means an included invoice exceeded the target, 0 means the target was
+met by every included invoice, and 2 means the input or output request is
+invalid. Exports cannot overwrite existing files. See
+[payment-performance.md](payment-performance.md) for calculation semantics,
+privacy boundaries, and interpretation limits.
+
 ## Forecast collection windows
 
 ```bash
