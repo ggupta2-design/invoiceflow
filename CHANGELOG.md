@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.7.0 — 2026-09-27
+
+- Added read-only integrity audits for valid invoice ledgers.
+- Added privacy-safe detection of possible duplicate invoice records.
+- Added normalized duplicate line-item checks within invoices.
+- Added future issue-date and payment-date checks against an explicit as-of
+  date.
+- Added zero-total active-record checks with void-record exclusions.
+- Added stable finding codes, deterministic ordering, and aggregate counts.
+- Added value-free readable and JSON reports that omit customer, invoice, date,
+  description, amount, status, currency, payment, fingerprint, and path values.
+- Added protected non-overwriting audit exports.
+- Added automation-friendly clear, review-required, and invalid statuses.
+- Added tests for normalized duplicates, repeated lines, lifecycle exclusions,
+  future dates, deterministic aggregation, privacy, immutability, output
+  safety, CLI behavior, and public APIs.
+- Documented finding semantics, false-positive guidance, privacy boundaries,
+  and human-review requirements.
+
 ## 0.6.0 — 2026-09-26
 
 - Added read-only payment performance analysis for paid invoices.
