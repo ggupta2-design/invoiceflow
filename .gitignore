@@ -28,3 +28,5 @@ collection-forecast*.json
 cash-forecast*.json
 payment-performance*.json
 settlement-report*.json
+integrity-report*.json
+invoice-audit*.json
