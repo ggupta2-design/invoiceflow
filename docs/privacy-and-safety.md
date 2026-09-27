@@ -121,3 +121,18 @@ Analysis is local and read-only. It does not alter payment status, verify that a
 payment settled, rank or score customers, predict future behavior, convert
 currencies, reconcile bank records, or make collection decisions. Store exports
 with ledger-level protections and review private source records before acting.
+
+## Integrity audit boundaries
+
+Integrity audit reports contain stable finding codes and aggregate counts only.
+They omit customer names, invoice numbers, individual invoice dates,
+descriptions, amounts, statuses, currencies, payment details, fingerprints,
+and file paths. Normalized values are used transiently during duplicate checks
+and are not retained in the result. Counts can still reveal operational
+information, so exports should remain private.
+
+Audits are local and read-only. Findings indicate unusual patterns, not proven
+errors or fraud. InvoiceFlow does not repair, merge, delete, renumber, or
+transition records, and it cannot determine whether similar invoices,
+repeated lines, future dates, or zero totals are intentional. Review the
+private ledger and supporting business records before taking action.
