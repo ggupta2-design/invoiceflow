@@ -5,7 +5,7 @@ from invoiceflow.cli import build_parser
 
 
 def test_aging_workflow_is_available_from_public_api():
-    assert invoiceflow.__version__ == "0.6.0"
+    assert invoiceflow.__version__ == "0.7.0"
     assert callable(invoiceflow.age_receivables)
     assert callable(invoiceflow.classify_aging)
     assert callable(invoiceflow.aging_to_dict)
@@ -18,7 +18,7 @@ def test_cli_reports_synced_release_version(capsys):
         build_parser().parse_args(["--version"])
 
     assert raised.value.code == 0
-    assert capsys.readouterr().out == "invoiceflow 0.6.0\n"
+    assert capsys.readouterr().out == "invoiceflow 0.7.0\n"
 
 
 def test_backup_workflow_is_available_from_public_api():
@@ -44,3 +44,13 @@ def test_payment_performance_is_available_from_public_api():
     assert callable(invoiceflow.payment_performance_to_dict)
     assert callable(invoiceflow.format_payment_performance)
     assert invoiceflow.PaymentBucket.SAME_DAY.value == "same_day"
+
+
+def test_integrity_audit_is_available_from_public_api():
+    assert callable(invoiceflow.audit_invoice_integrity)
+    assert callable(invoiceflow.integrity_audit_to_dict)
+    assert callable(invoiceflow.format_integrity_audit)
+    assert (
+        invoiceflow.IntegrityCode.POSSIBLE_DUPLICATE_INVOICE.value
+        == "possible_duplicate_invoice"
+    )
