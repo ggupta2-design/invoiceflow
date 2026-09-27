@@ -17,6 +17,8 @@ from .due import review_due
 from .forecast import forecast_collections
 from .forecast_report import format_forecast
 from .invoice_io import load_invoice
+from .integrity import audit_invoice_integrity
+from .integrity_report import format_integrity_audit
 from .models import InvoiceFlowError, InvoiceStatus
 from .output import write_output
 from .payment_performance import analyze_payment_performance
@@ -134,6 +136,15 @@ def build_parser() -> argparse.ArgumentParser:
     forecast.add_argument("--days", type=int, default=90)
     forecast.add_argument("--json", action="store_true", dest="as_json")
     forecast.add_argument("--output", type=Path)
+
+    integrity = commands.add_parser(
+        "integrity",
+        help="audit valid ledger records without changing or exposing them",
+    )
+    integrity.add_argument("ledger", type=Path)
+    integrity.add_argument("--as-of", type=_date_argument, required=True)
+    integrity.add_argument("--json", action="store_true", dest="as_json")
+    integrity.add_argument("--output", type=Path)
 
     payment_performance = commands.add_parser(
         "payment-performance",
@@ -295,6 +306,15 @@ def run(argv: Sequence[str] | None = None) -> int:
             content = format_aging(aging, as_json=args.as_json)
             _emit(content, args.output)
             return 1 if aging.attention_required else 0
+
+        if args.command == "integrity":
+            audit = audit_invoice_integrity(
+                service.list(),
+                as_of=args.as_of,
+            )
+            content = format_integrity_audit(audit, as_json=args.as_json)
+            _emit(content, args.output)
+            return 1 if audit.attention_required else 0
 
         if args.command == "payment-performance":
             performance = analyze_payment_performance(
