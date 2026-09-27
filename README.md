@@ -17,6 +17,7 @@ The first milestone focuses on predictable invoice fundamentals:
 - aggregate multi-currency receivables aging;
 - bounded, privacy-safe cash collection forecasts;
 - aggregate payment settlement performance against a local target;
+- read-only, value-free ledger integrity audits;
 - checksum-protected local backup verification and recovery;
 - readable and JSON reports with optional client-name redaction;
 - automation-friendly exit statuses;
@@ -39,6 +40,8 @@ invoiceflow due ~/private/invoiceflow-ledger.json \
   --as-of 2026-09-21 --days 30 --redact-clients
 invoiceflow aging ~/private/invoiceflow-ledger.json \
   --as-of 2026-09-23 --json
+invoiceflow integrity ~/private/invoiceflow-ledger.json \
+  --as-of 2026-09-27 --json
 invoiceflow payment-performance ~/private/invoiceflow-ledger.json \
   --from-date 2026-09-01 --through-date 2026-09-30 --target-days 30
 invoiceflow forecast ~/private/invoiceflow-ledger.json \
@@ -66,4 +69,4 @@ customer or financial data.
 
 ## Status
 
-InvoiceFlow 0.6.0 adds bounded payment-performance analytics with settlement-time buckets, exact currency-separated totals, target tracking, and aggregate-only reports.
+InvoiceFlow 0.7.0 adds read-only integrity audits for possible duplicate invoices, repeated line items, future record dates, and zero-total active records. Reports contain only finding codes and counts.
