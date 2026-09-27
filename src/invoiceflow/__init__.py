@@ -30,6 +30,13 @@ from .forecast import (
     forecast_collections,
 )
 from .forecast_report import forecast_to_dict, format_forecast
+from .integrity import (
+    IntegrityAudit,
+    IntegrityCode,
+    IntegrityFinding,
+    audit_invoice_integrity,
+)
+from .integrity_report import format_integrity_audit, integrity_audit_to_dict
 from .invoice_io import (
     format_invoice_json,
     invoice_from_dict,
@@ -88,7 +95,7 @@ from .storage import (
     ledger_to_dict,
 )
 
-__version__ = "0.6.0"
+__version__ = "0.7.0"
 
 __all__ = [
     "AgingAmount",
@@ -109,6 +116,9 @@ __all__ = [
     "InvoiceLine",
     "InvoiceService",
     "InvoiceStatus",
+    "IntegrityAudit",
+    "IntegrityCode",
+    "IntegrityFinding",
     "CurrencyPaymentPerformance",
     "PaymentAmount",
     "PaymentBucket",
@@ -124,6 +134,7 @@ __all__ = [
     "MAX_LEDGER_INVOICES",
     "age_receivables",
     "analyze_payment_performance",
+    "audit_invoice_integrity",
     "backup_from_dict",
     "backup_summary_to_dict",
     "build_backup",
@@ -137,6 +148,7 @@ __all__ = [
     "format_backup_summary",
     "format_due_review",
     "format_forecast",
+    "format_integrity_audit",
     "format_invoice",
     "format_invoice_json",
     "format_invoice_list",
@@ -146,6 +158,7 @@ __all__ = [
     "format_reminder_plan",
     "forecast_collections",
     "forecast_to_dict",
+    "integrity_audit_to_dict",
     "invoice_from_dict",
     "invoice_summary_to_dict",
     "invoice_to_dict",
