@@ -102,6 +102,29 @@ receivable was found, and 2 means the ledger, date, or output request is
 invalid. See [receivables-aging.md](receivables-aging.md) for boundaries,
 currency handling, disclosure limits, and interpretation guidance.
 
+## Audit ledger integrity
+
+```bash
+invoiceflow integrity ~/private/invoiceflow-ledger.json \
+  --as-of 2026-09-27
+
+invoiceflow integrity ~/private/invoiceflow-ledger.json \
+  --as-of 2026-09-27 --json \
+  --output ~/private/reports/integrity.json
+```
+
+The command validates the ledger and then checks for possible duplicate
+invoices, repeated identical line items, future issue or payment dates, and
+zero-total active records. Reports contain stable finding codes and aggregate
+counts only. They omit clients, invoice numbers, individual invoice dates,
+descriptions, amounts, statuses, currencies, and paths. The ledger is never
+modified.
+
+Status 1 means findings require human review, 0 means no findings were
+detected, and 2 means the input or output request is invalid. Exports cannot
+overwrite existing files. See [integrity-audits.md](integrity-audits.md) for
+finding semantics, false-positive guidance, and privacy boundaries.
+
 ## Review payment performance
 
 ```bash
